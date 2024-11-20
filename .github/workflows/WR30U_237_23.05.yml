@@ -10,7 +10,7 @@
 # See /LICENSE for more information.
 #
 
-name: WR30U_237_23.05_source
+name: WR30U_237_23.05
 
 on:
   repository_dispatch:
