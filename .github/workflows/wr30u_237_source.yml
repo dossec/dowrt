@@ -53,6 +53,11 @@ jobs:
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
 
+    - name: Initialization Values
+      run: |
+        export WRT_DATE=$(TZ=UTC-8 date +"%y.%m.%d_%H.%M.%S")
+        export WRT_CI=$(basename $GITHUB_WORKSPACE)
+        
     - name: Clone source code
       working-directory: /workdir
       run: |
