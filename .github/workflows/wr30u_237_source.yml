@@ -10,7 +10,7 @@
 # See /LICENSE for more information.
 #
 
-name: WR30U Builder
+name: WR30U 237 source
 
 on:
   repository_dispatch:
