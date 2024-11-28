@@ -10,7 +10,7 @@
 # See /LICENSE for more information.
 #
 
-name: sl-3000_23.05_builder
+name: sl-3000_23.05_purity
 
 on:
   repository_dispatch:
