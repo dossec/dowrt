@@ -10,7 +10,7 @@
 # See /LICENSE for more information.
 #
 
-name: sl-3000_23.05_purity
+name: sl-3000_21.02_purity
 
 on:
   repository_dispatch:
@@ -20,7 +20,7 @@ env:
   REPO_URL: https://github.com/dailook/immortalwrt-mt798x
   REPO_BRANCH: openwrt-21.02
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: sl-3000_config
+  CONFIG_FILE: sl3000_purity.config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
   UPLOAD_BIN_DIR: false
