@@ -144,7 +144,7 @@ jobs:
       uses: actions/upload-artifact@main
       if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
-        name: OpenWrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
+        name: OpenWrt_firmware_${CONFIG_FILE}${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
 
     - name: Generate release tag
@@ -162,7 +162,7 @@ jobs:
       with:
         tag_name: ${{ steps.tag.outputs.release_tag }}
         body: |
-          - 本项目是基于lede源代码编译大分区固件，使用默认配置，适用于tr3000设备，纯净版无任何第三方软件包。
+          - 本项目是基于lede源代码编译大分区固件，使用默认配置，适用于tr3000等设备，纯净版无任何第三方软件包。
           - 默认IP：192.168.6.1
           - 默认账号：root
           - 默认密码：password
