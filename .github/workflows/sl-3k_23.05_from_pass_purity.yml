@@ -104,7 +104,14 @@ jobs:
         make -j$(nproc) || make -j1 || make -j1 V=s
         echo "status=success" >> $GITHUB_OUTPUT
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | grep -v 'ROOTFS' | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
-        [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
+        # 检查 DEVICE_NAME 文件是否存在，并按格式输出设备名称
+        if [ -s DEVICE_NAME ]; then
+          # 遍历设备列表并按要求格式化输出
+          while IFS= read -r device; do
+            # 构建 DEVICE_NAME 环境变量，格式为 DEVICE_NAME=_<device-name>
+            echo "DEVICE_NAME=_$device" >> $GITHUB_ENV
+          done < DEVICE_NAME
+        fi
         echo "FILE_DATE=_$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
 
     - name: Check space usage
