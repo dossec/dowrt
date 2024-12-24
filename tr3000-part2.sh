@@ -11,17 +11,17 @@
 #
 
 # Modify default IP
-sed -i 's/192.168.1.1/192.168.6.1/g' openwrt/package/base-files/files/bin/config_generate
-# sed -i "s/192\.168\.[0-9]*\.[0-9]*/192.168.6.1/g" openwrt/package/base-files/files/bin/config_generate
+sed -i 's/192.168.1.1/192.168.6.1/g' package/base-files/files/bin/config_generate
+# sed -i "s/192\.168\.[0-9]*\.[0-9]*/192.168.6.1/g" package/base-files/files/bin/config_generate
 
 # Modify default theme
-sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' openwrt/feeds/luci/collections/luci/Makefile
+sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci/Makefile
 
 # Modify hostname
 #sed -i 's/OpenWrt/P3TERX-Router/g' package/base-files/files/bin/config_generate
 
 # Modify wifi name
-cat > openwrt/package/base-files/files/etc/uci-defaults/99-set-wifi.sh <<EOF
+cat > package/base-files/files/etc/uci-defaults/99-set-wifi.sh <<EOF
 uci set network.lan.ipaddr='192.168.6.1'
 uci commit network
 for radio in \$(uci show wireless | grep '=wifi-device' | cut -d'.' -f2 | cut -d'=' -f1);do
@@ -35,3 +35,6 @@ uci commit wireless
 wifi reload
 exit 0
 EOF
+
+# load mtd_rw
+sed -i "/exit 0/i insmod mtd-rw i_want_a_brick=1" package/base-files/files/etc/rc.local
