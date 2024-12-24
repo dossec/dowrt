@@ -19,3 +19,19 @@ sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' openwrt/feeds/luci/collection
 
 # Modify hostname
 #sed -i 's/OpenWrt/P3TERX-Router/g' package/base-files/files/bin/config_generate
+
+# Modify wifi name
+cat > openwrt/package/base-files/files/etc/uci-defaults/99-set-wifi.sh <<EOF
+uci set network.lan.ipaddr='192.168.6.1'
+uci commit network
+for radio in \$(uci show wireless | grep '=wifi-device' | cut -d'.' -f2 | cut -d'=' -f1);do
+    uci set wireless.\$radio.disabled='0'
+    #uci set wireless.default_\$radio.ssid='OpenWrt'
+    #uci set wireless.default_radio1.ssid='OpenWrt-5G'
+    uci set wireless.default_\$radio.encryption='psk-mixed'
+    uci set wireless.default_\$radio.key='1234567890'
+done
+uci commit wireless
+wifi reload
+exit 0
+EOF
