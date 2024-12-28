@@ -20,9 +20,9 @@ env:
   REPO_URL: https://github.com/padavanonly/immortalwrt-mt798x-23.05
   REPO_BRANCH: openwrt-23.05
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: wr30u_config
-  DIY_P1_SH: diy-part1.sh
-  DIY_P2_SH: wr30u-part2.sh
+  CONFIG_FILE: wr30u_23.05_237.config
+  DIY_P1_SH: mt7981-part1.sh
+  DIY_P2_SH: mt7981-part2.sh
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: true
@@ -121,7 +121,15 @@ jobs:
         make -j$(nproc) || make -j1 || make -j1 V=s
         echo "status=success" >> $GITHUB_OUTPUT
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
-        [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
+        # [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
+        # 检查 DEVICE_NAME 文件是否存在，并按格式输出设备名称
+        if [ -s DEVICE_NAME ]; then
+          # 遍历设备列表并按要求格式化输出
+          while IFS= read -r device; do
+            # 构建 DEVICE_NAME 环境变量，格式为 DEVICE_NAME=_<device-name>
+            echo "DEVICE_NAME=_$device" >> $GITHUB_ENV
+          done < DEVICE_NAME
+        fi
         echo "FILE_DATE=_$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
 
     - name: Check space usage
@@ -156,7 +164,7 @@ jobs:
       uses: actions/upload-artifact@main
       if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
-        name: OpenWrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
+        name: OpenWrt_firmware${{ env.CONFIG_FILE }}${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
 
     - name: Generate release tag
@@ -167,19 +175,19 @@ jobs:
         echo "status=success" >> $GITHUB_OUTPUT
 
     - name: Upload firmware to release
-      uses: softprops/action-gh-release@master
+      uses: softprops/action-gh-release@v2
       if: steps.tag.outputs.status == 'success' && !cancelled()
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ steps.tag.outputs.release_tag }}
         body: |
-          - 本项目是基于Hanwckf源代码编译大分区固件，使用默认配置，适用于WR30U设备，纯净版无任何第三方软件包。
+          - 本项目是基于237 23.05源代码编译大分区固件，使用默认配置，适用于WR30U设备，纯净版无任何第三方软件包。
           - 历史版本将自动保留在下方。
           - 默认IP：192.168.6.1
           - 默认账号：root
           - 默认密码：password
-          - 源码更新详情[点击这里查看](https://github.com/hanwckf/immortalwrt-mt798x/commits/openwrt-21.02/)
+          - 源码更新详情[点击这里查看](https://github.com/padavanonly/immortalwrt-mt798x-23.05)
           - **请仔细检查MD5以确保完整性后再进行刷入！**
           `md5信息`
           > ${{ env.MD5 }}
