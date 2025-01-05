@@ -165,9 +165,10 @@ jobs:
         tag_name: ${{ steps.tag.outputs.release_tag }}
         body: |
           - 默认IP：192.168.6.1
+          - sl-3k_23.05_from_pass_purity.yml
           - 默认账号：root
           - 默认密码：password
-          - 源码更新详情[点击这里查看](https://github.com/hanwckf/immortalwrt-mt798x/commits/openwrt-21.02/)
+          - 源码更新详情[点击这里查看](https://github.com/dailook/immortalwrt-mt798x-23.05)
           - **请仔细检查MD5以确保完整性后再进行刷入！**
           `md5信息`
           > ${{ env.MD5 }}
