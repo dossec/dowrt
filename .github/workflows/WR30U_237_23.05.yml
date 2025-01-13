@@ -21,7 +21,7 @@ env:
   REPO_BRANCH: openwrt-23.05
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: wr30u_23.05_237.config
-  DIY_P1_SH: mt7981-part1.sh
+  DIY_P1_SH: mt7981_23.05-part1.sh
   DIY_P2_SH: mt7981-part2.sh
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
