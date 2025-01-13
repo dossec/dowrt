@@ -15,5 +15,3 @@ echo 'src-git small https://github.com/kenzok8/small' >>feeds.conf.default
 # vnt
 echo 'src-git vnt https://github.com/lmq8267/luci-app-vnt.git' >>feeds.conf.default
 
-# filetransfer
-echo 'src-git filetransfer https://github.com/QC3284/luci-app-filetransfer.git' >>feeds.conf.default
