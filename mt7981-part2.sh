@@ -40,3 +40,11 @@ cat > package/base-files/files/etc/uci-defaults/98-set-distfeeds.sh <<EOF
     sed -i '/src\/gz immortalwrt_vnt\|src\/gz immortalwrt_core/d' /etc/opkg/distfeeds.conf
 exit 0
 EOF
+
+# download clash core
+curl -sL -m 30 --retry 2 https://github.com/vernesong/OpenClash/releases/download/Clash/clash-"$CPU_MODEL".tar.gz -o /tmp/clash.tar.gz
+tar zxvf /tmp/clash.tar.gz -C /tmp >/dev/null 2>&1
+chmod +x /tmp/clash >/dev/null 2>&1
+mkdir -p package/base-files/files/etc/openclash/core
+mv /tmp/clash package/base-files/files/etc/openclash/core/clash_meta >/dev/null 2>&1
+rm -rf /tmp/clash.tar.gz >/dev/null 2>&1
