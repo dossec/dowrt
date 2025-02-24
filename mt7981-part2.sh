@@ -34,3 +34,9 @@ uci commit wireless
 wifi reload
 exit 0
 EOF
+
+# modify distfeeds
+cat > package/base-files/files/etc/uci-defaults/98-set-distfeeds.sh <<EOF
+    sed -i '/src\/gz immortalwrt_vnt\|src\/gz immortalwrt_core/d' /etc/opkg/distfeeds.conf
+exit 0
+EOF
